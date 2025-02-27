@@ -54,10 +54,11 @@
 </template>
 
 <script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core';
 import { ref } from 'vue';
 
 
-const list = ref<{ id: number, title: string, text: string }[]>([{
+const list = useLocalStorage<{ id: number, title: string, text: string }[]>("todo-storage", [{
   id: 213,
   title: "Geschenke",
   text: "Blumen für Comdesk kaufen ",
