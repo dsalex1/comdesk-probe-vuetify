@@ -21,7 +21,7 @@
                   </VCol>
                 </VRow>
               </VListItem>
-              <VListItem v-for="item in list">
+              <VListItem v-for="item in list.sort((a, b) => a.id - b.id)">
                 <VRow>
                   <VCol cols=4>
                     <VListItemSubtitle class="text--muted">{{ `#${item.id}` }}</VListItemSubtitle>
