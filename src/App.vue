@@ -5,7 +5,8 @@
         <VCard>
           <VCardTitle>Todo List</VCardTitle>
           <VCardText>
-
+            <!-- might use v-data-table, but list is prettier for now-->
+            <!--<v-data-table :items="list"></v-data-table>-->
             <VList>
               <VListItem>
                 <VAlert v-if="list.length === 0" color="info">No items yet</VAlert>
@@ -57,7 +58,6 @@
 import { useLocalStorage } from '@vueuse/core';
 import { ref } from 'vue';
 
-
 const list = useLocalStorage<{ id: number, title: string, text: string }[]>("todo-storage", [{
   id: 213,
   title: "Geschenke",
@@ -71,13 +71,13 @@ const list = useLocalStorage<{ id: number, title: string, text: string }[]>("tod
 const title = ref('');
 const text = ref('');
 
-
-const addTodo = () => {
+function addTodo() {
   list.value.push({
     id: Math.floor(Math.random() * 1000), //FIXME: might produce duplicate ids
     title: title.value,
     text: text.value,
   });
+
   title.value = '';
   text.value = '';
 };
