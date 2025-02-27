@@ -10,7 +10,7 @@
             <VSelect v-model="currentCategory" :items="CATEGORIES" label="Category" />
             <VList>
               <VListItem>
-                <VAlert v-if="list.length === 0" color="info">No items yet</VAlert>
+                <VAlert v-if="currentSortedFilteredList.length === 0" color="info">No items yet</VAlert>
                 <VRow v-else>
                   <VCol cols=4>
                     <b>ID</b>
@@ -23,7 +23,7 @@
                   </VCol>
                 </VRow>
               </VListItem>
-              <VListItem v-for="item in list.sort((a, b) => a.id - b.id).filter(i => i.category === currentCategory)">
+              <VListItem v-for="item in currentSortedFilteredList">
                 <VRow>
                   <VCol cols=4>
                     <VListItemSubtitle class="text--muted">{{ `#${item.id}` }}</VListItemSubtitle>
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const CATEGORIES = ["Allgemein", "Software", "Hardware"] as const;
 
@@ -74,6 +74,8 @@ const list = useLocalStorage<{ id: number, title: string, text: string, category
   text: "Updates installieren",
   category: 'Allgemein'
 }]);
+
+const currentSortedFilteredList = computed(() => list.value.sort((a, b) => a.id - b.id).filter(i => i.category === currentCategory.value));
 
 const title = ref('');
 const text = ref('');
