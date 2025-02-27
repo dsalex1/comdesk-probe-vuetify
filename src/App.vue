@@ -7,6 +7,7 @@
           <VCardText>
             <!-- might use v-data-table, but list is prettier for now-->
             <!--<v-data-table :items="list"></v-data-table>-->
+            <VSelect v-model="currentCategory" :items="CATEGORIES" label="Category" />
             <VList>
               <VListItem>
                 <VAlert v-if="list.length === 0" color="info">No items yet</VAlert>
@@ -22,7 +23,7 @@
                   </VCol>
                 </VRow>
               </VListItem>
-              <VListItem v-for="item in list.sort((a, b) => a.id - b.id)">
+              <VListItem v-for="item in list.sort((a, b) => a.id - b.id).filter(i => i.category === currentCategory)">
                 <VRow>
                   <VCol cols=4>
                     <VListItemSubtitle class="text--muted">{{ `#${item.id}` }}</VListItemSubtitle>
@@ -58,14 +59,20 @@
 import { useLocalStorage } from '@vueuse/core';
 import { ref } from 'vue';
 
-const list = useLocalStorage<{ id: number, title: string, text: string }[]>("todo-storage", [{
+const CATEGORIES = ["Allgemein", "Software", "Hardware"] as const;
+
+const currentCategory = ref<typeof CATEGORIES[number]>("Allgemein");
+
+const list = useLocalStorage<{ id: number, title: string, text: string, category: typeof CATEGORIES[number] }[]>("todo-storage", [{
   id: 213,
   title: "Geschenke",
   text: "Blumen für Comdesk kaufen ",
+  category: 'Allgemein'
 }, {
   id: 529,
   title: "Software",
   text: "Updates installieren",
+  category: 'Allgemein'
 }]);
 
 const title = ref('');
@@ -76,6 +83,7 @@ function addTodo() {
     id: Math.floor(Math.random() * 1000), //FIXME: might produce duplicate ids
     title: title.value,
     text: text.value,
+    category: currentCategory.value
   });
 
   title.value = '';

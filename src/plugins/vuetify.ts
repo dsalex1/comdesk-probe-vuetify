@@ -19,6 +19,7 @@ export default createVuetify({
   defaults: {
     VTextField: { density: "comfortable", variant: "underlined" },
     VTextarea: { density: "comfortable", variant: "underlined" },
+    VSelect: { density: "comfortable", variant: "underlined" },
     VAlert: { variant: "tonal" },
   },
 });
