@@ -12,7 +12,7 @@
               <VListItem>
                 <VAlert v-if="currentSortedFilteredList.length === 0" color="info">No items yet</VAlert>
                 <VRow v-else>
-                  <VCol cols=4>
+                  <VCol cols=3>
                     <b>ID</b>
                   </VCol>
                   <VCol cols=4>
@@ -21,11 +21,13 @@
                   <VCol cols=4>
                     <b>Text</b>
                   </VCol>
+                  <VCol cols=1>
+                  </VCol>
                 </VRow>
               </VListItem>
               <VListItem v-for="item in currentSortedFilteredList">
                 <VRow>
-                  <VCol cols=4>
+                  <VCol cols=2>
                     <VListItemSubtitle class="text--muted">{{ `#${item.id}` }}</VListItemSubtitle>
                   </VCol>
                   <VCol cols=4>
@@ -33,6 +35,9 @@
                   </VCol>
                   <VCol cols=4>
                     <VListItemSubtitle>{{ item.text }}</VListItemSubtitle>
+                  </VCol>
+                  <VCol cols=2>
+                    <VBtn color="error" variant="plain" @click="list = list.filter(l => l.id != item.id)" icon>✖</VBtn>
                   </VCol>
                 </VRow>
               </VListItem>
